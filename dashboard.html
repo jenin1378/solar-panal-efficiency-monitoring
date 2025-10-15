@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Panel Efficiency Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    header {
+      background-color: #ffcc33;
+      color: #222;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .summary p {
+      font-size: 1.1em;
+      margin: 8px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #222;
+      color: #eee;
+      margin-top: 20px;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Solar Panel Efficiency Monitoring System ☀️</h1>
+  </header>
+
+  <main class="grid-container">
+    <section class="card">
+      <h2>⚡ Power Output (W)</h2>
+      <canvas id="powerChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>🌡️ Panel Temperature (°C)</h2>
+      <canvas id="tempChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>☀️ Solar Irradiance (W/m²)</h2>
+      <canvas id="irrChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>💧 Efficiency (%)</h2>
+      <canvas id="effChart"></canvas>
+    </section>
+
+    <section class="card summary">
+      <h2>📊 Summary</h2>
+      <p><strong>Average Efficiency:</strong> <span id="avgEff">--</span>%</p>
+      <p><strong>Max Power Output:</strong> <span id="maxPower">--</span> W</p>
+      <p><strong>Average Temperature:</strong> <span id="avgTemp">--</span> °C</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Developed for Solar Panel Performance Monitoring | GitHub Pages Ready</p>
+  </footer>
+
+  <script>
+    // Generate simulated data for charts
+    function generateData(count, min, max) {
+      return Array.from({ length: count }, () =>
+        (Math.random() * (max - min) + min).toFixed(2)
+      );
+    }
+
+    const labels = ['9 AM','10 AM','11 AM','12 PM','1 PM','2 PM','3 PM','4 PM'];
+    let powerData = generateData(8, 200, 400);
+    let tempData = generateData(8, 25, 45);
+    let irrData = generateData(8, 600, 1000);
+    let effData = generateData(8, 70, 95);
+
+    function createChart(ctxId, label, data, color) {
+      const ctx = document.getElementById(ctxId);
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            borderColor: color,
+            borderWidth: 2,
+            fill: false,
+            tension: 0.2
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    createChart('powerChart', 'Power Output (W)', powerData, 'orange');
+    createChart('tempChart', 'Temperature (°C)', tempData, 'red');
+    createChart('irrChart', 'Irradiance (W/m²)', irrData, 'gold');
+    createChart('effChart', 'Efficiency (%)', effData, 'green');
+
+    // Summary stats
+    const avgEff = (effData.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/effData.length).toFixed(2);
+    const maxPower = Math.max(...powerData.map(parseFloat)).toFixed(2);
+    const avgTemp = (tempData.reduce((a,b)=>parseFloat(a)+parseFloat(b),0)/tempData.length).toFixed(2);
+
+    document.getElementById('avgEff').textContent = avgEff;
+    document.getElementById('maxPower').textContent = maxPower;
+    document.getElementById('avgTemp').textContent = avgTemp;
+  </script>
+</body>
+</html>
