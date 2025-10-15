@@ -2,13 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Solar Panel Efficiency Monitor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Panel Efficiency Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Solar Panel Efficiency Dashboard ☀️</h1>
-  <canvas id="effChart" width="400" height="200"></canvas>
+  <header>
+    <h1>Solar Panel Efficiency Monitoring System ☀️</h1>
+  </header>
+
+  <main class="grid-container">
+    <section class="card">
+      <h2>⚡ Power Output (W)</h2>
+      <canvas id="powerChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>🌡️ Panel Temperature (°C)</h2>
+      <canvas id="tempChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>☀️ Solar Irradiance (W/m²)</h2>
+      <canvas id="irrChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>💧 Efficiency (%)</h2>
+      <canvas id="effChart"></canvas>
+    </section>
+
+    <section class="card summary">
+      <h2>📊 Summary</h2>
+      <p><strong>Average Efficiency:</strong> <span id="avgEff">--</span>%</p>
+      <p><strong>Max Power Output:</strong> <span id="maxPower">--</span> W</p>
+      <p><strong>Average Temperature:</strong> <span id="avgTemp">--</span> °C</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Developed for Solar Panel Performance Monitoring | GitHub Pages Ready</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
